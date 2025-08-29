@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger App Demo - Ethiopia Bus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-label {
+            font-weight: 600;
+        }
+        
+        .status-value {
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online {
+            background: #4CAF50;
+        }
+        
+        .status-indicator.offline {
+            background: #f44336;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+        
+        .demo-section {
+            margin-bottom: 30px;
+        }
+        
+        .demo-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .demo-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .demo-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .demo-card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+        
+        .test-accounts {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .test-accounts h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .account-item {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .account-type {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .account-details {
+            color: #666;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🚌 Ethiopia Bus Passenger App</h1>
+        <p class="subtitle">Real-time Bus Tracking & Reservation System</p>
+        
+        <div class="status-card">
+            <div class="status-item">
+                <span class="status-label">Backend Status</span>
+                <span class="status-value">
+                    <span class="status-indicator online"></span>
+                    Online (Port 8080)
+                </span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">API Endpoint</span>
+                <span class="status-value">http://localhost:8080/api</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">WebSocket</span>
+                <span class="status-value">ws://localhost:8080/ws-bus</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Database</span>
+                <span class="status-value">H2 In-Memory (Active)</span>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📱 Passenger App Features</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>User Registration</h3>
+                    <p>Sign up with Ethiopian phone number (+251), OTP verification, secure password</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Real-time Tracking</h3>
+                    <p>Track buses in real-time on interactive map with live location updates</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Seat Reservation</h3>
+                    <p>Select and reserve seats, view availability, manage bookings</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Route Search</h3>
+                    <p>Search buses by route, destination, time, and availability</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Payment Integration</h3>
+                    <p>Ready for Telebirr and CBE Mobile Banking integration</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Multi-language</h3>
+                    <p>Support for Amharic and English languages</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔑 Test Accounts</h2>
+            <div class="test-accounts">
+                <h3>Available Test Credentials</h3>
+                <div class="account-item">
+                    <span class="account-type">Admin</span>
+                    <span class="account-details">Username: <code>admin</code> | Password: <code>Admin@2024#Ethiopia</code></span>
+                </div>
+                <div class="account-item">
+                    <span class="account-type">Test Passenger</span>
+                    <span class="account-details">Phone: <code>+251912345678</code> | Password: <code>Test@123</code></span>
+                </div>
+                <div class="account-item">
+                    <span class="account-type">Driver 1</span>
+                    <span class="account-details">Phone: <code>+251911111111</code> | Password: <code>driver123</code></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🚀 API Endpoints</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>Authentication</h3>
+                    <p>
+                        <code>POST /api/auth/login</code><br>
+                        <code>POST /api/auth/signup</code><br>
+                        <code>POST /api/auth/verify-phone</code>
+                    </p>
+                </div>
+                <div class="demo-card">
+                    <h3>Bus Operations</h3>
+                    <p>
+                        <code>GET /api/buses</code><br>
+                        <code>GET /api/buses/active</code><br>
+                        <code>GET /api/buses/{id}</code>
+                    </p>
+                </div>
+                <div class="demo-card">
+                    <h3>Routes</h3>
+                    <p>
+                        <code>GET /api/routes</code><br>
+                        <code>GET /api/routes/{id}</code><br>
+                        <code>GET /api/routes/search</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/passenger-app.html" class="btn btn-primary">
+                Open Passenger App
+            </a>
+            <button onclick="testAPI()" class="btn btn-secondary">
+                Test API Connection
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        async function testAPI() {
+            try {
+                const response = await fetch('/api/buses/active');
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(`API Test Successful!\n\nActive Buses: ${data.length}\nStatus: Connected`);
+                } else {
+                    alert(`API Response: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                alert(`API Test Failed: ${error.message}`);
+            }
+        }
+        
+        // Auto-check backend status
+        async function checkBackendStatus() {
+            try {
+                const response = await fetch('/api/buses/active');
+                const indicator = document.querySelector('.status-indicator');
+                if (response.ok) {
+                    indicator.classList.add('online');
+                    indicator.classList.remove('offline');
+                } else {
+                    indicator.classList.add('offline');
+                    indicator.classList.remove('online');
+                }
+            } catch (error) {
+                const indicator = document.querySelector('.status-indicator');
+                indicator.classList.add('offline');
+                indicator.classList.remove('online');
+            }
+        }
+        
+        // Check status every 5 seconds
+        setInterval(checkBackendStatus, 5000);
+        checkBackendStatus(); // Initial check
+    </script>
+</body>
+</html>

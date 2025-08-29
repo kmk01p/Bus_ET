@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
-    <title>Ethiopia Bus Driver App - የኢትዮጵያ አውቶብስ ሹፌር መተግበሪያ</title>
+    <meta name="theme-color" content="#2196F3">
+    <title>Ethiopia Bus Driver - የአሽከርካሪ መተግበሪያ</title>
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
             min-height: 100vh;
-            position: relative;
+            overflow-x: hidden;
         }
 
         .app-container {
@@ -31,42 +33,65 @@
 
         /* Login Screen */
         .login-screen {
-            padding: 2rem;
+            background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            color: white;
         }
 
         .login-logo {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.5s ease;
         }
 
         .login-logo i {
-            font-size: 4rem;
-            color: white;
+            font-size: 5rem;
             margin-bottom: 1rem;
-            display: block;
+            color: white;
         }
 
         .login-logo h1 {
-            color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
         }
 
         .login-logo p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-form {
             background: white;
+            border-radius: 20px;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.5s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .form-group {
@@ -82,251 +107,270 @@
 
         .form-group input {
             width: 100%;
-            padding: 0.875rem;
+            padding: 1rem;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
         }
 
-        .login-btn {
+        .btn-login {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
         }
 
-        .login-btn:active {
+        .btn-login:active {
             transform: scale(0.98);
         }
 
-        /* Main App */
-        .app-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Main Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
             color: white;
             padding: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .header-content {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1rem;
         }
 
         .driver-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .driver-avatar {
             width: 40px;
             height: 40px;
-            background: white;
             border-radius: 50%;
+            background: white;
+            color: #2196F3;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #667eea;
             font-weight: bold;
         }
 
-        .driver-details h3 {
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
+        .driver-name {
+            font-weight: 600;
         }
 
-        .driver-details p {
-            font-size: 0.8rem;
-            opacity: 0.9;
+        .status-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 3px;
         }
 
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
+        .status-option {
             padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 25px;
             cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
-        /* Bus Status Card */
-        .bus-status-card {
+        .status-option.active {
             background: white;
-            margin: 1rem;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            color: #2196F3;
+            font-weight: 600;
         }
 
         .bus-info {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
         }
 
-        .bus-number {
-            font-size: 1.5rem;
+        .bus-detail {
+            text-align: center;
+        }
+
+        .bus-detail-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 0.2rem;
+        }
+
+        .bus-detail-value {
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #333;
         }
 
-        .bus-route {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
+        /* Map Section */
+        .map-container {
+            height: 300px;
+            position: relative;
         }
 
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .status-active {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .status-inactive {
-            background: #f5f5f5;
-            color: #757575;
-        }
-
-        /* GPS Controls */
-        .gps-controls {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-
-        .gps-status {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .gps-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .gps-active {
-            background: #4caf50;
-        }
-
-        .gps-inactive {
-            background: #f44336;
-            animation: none;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-            }
-        }
-
-        .gps-toggle {
+        #driverMap {
+            height: 100%;
             width: 100%;
-            padding: 1rem;
-            background: #4caf50;
-            color: white;
+        }
+
+        .map-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .map-btn {
+            background: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .gps-toggle.stop {
-            background: #f44336;
+        .map-btn:active {
+            transform: scale(0.95);
         }
 
-        /* Statistics */
+        .map-btn.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* Stats Cards */
         .stats-grid {
+            padding: 1rem;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
-            margin: 1rem;
         }
 
         .stat-card {
             background: white;
+            border-radius: 15px;
             padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:active {
+            transform: scale(0.98);
         }
 
         .stat-icon {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 0.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue {
+            background: #e3f2fd;
+            color: #2196F3;
+        }
+
+        .stat-icon.green {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .stat-icon.orange {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .stat-icon.purple {
+            background: #f3e5f5;
+            color: #9c27b0;
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #333;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
             color: #666;
             font-size: 0.9rem;
-            margin-top: 0.3rem;
         }
 
         /* Passenger List */
-        .passenger-section {
-            margin: 1rem;
+        .section {
+            padding: 1rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
         .section-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: #333;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .passenger-list {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
@@ -336,6 +380,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: background 0.3s;
+        }
+
+        .passenger-item:active {
+            background: #f5f5f5;
         }
 
         .passenger-item:last-child {
@@ -343,28 +392,89 @@
         }
 
         .passenger-info {
-            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .passenger-name {
-            font-weight: 500;
+        .passenger-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e3f2fd;
+            color: #2196F3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .passenger-details h4 {
             color: #333;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
-        .passenger-details {
-            font-size: 0.9rem;
+        .passenger-details p {
             color: #666;
+            font-size: 0.9rem;
         }
 
-        .check-in-btn {
-            padding: 0.5rem 1rem;
-            background: #4caf50;
+        .seat-number {
+            background: #2196F3;
             color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .action-btn.emergency {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .action-btn.break {
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .action-btn.fuel {
+            border-color: #9c27b0;
+            color: #9c27b0;
+        }
+
+        .action-btn.support {
+            border-color: #4CAF50;
+            color: #4CAF50;
         }
 
         /* Bottom Navigation */
@@ -374,7 +484,7 @@
             left: 0;
             right: 0;
             background: white;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             padding: 0.5rem 0;
@@ -384,55 +494,49 @@
 
         .nav-item {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
             padding: 0.5rem;
-            color: #999;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-item.active {
-            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
         .nav-item i {
             font-size: 1.5rem;
+            color: #666;
+            display: block;
             margin-bottom: 0.3rem;
         }
 
         .nav-item span {
-            font-size: 0.75rem;
-        }
-
-        /* Hidden by default */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Language Toggle */
-        .language-toggle {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
+            font-size: 0.8rem;
             color: #666;
         }
 
-        .loading i {
-            font-size: 2rem;
+        .nav-item.active i,
+        .nav-item.active span {
+            color: #2196F3;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
+            border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
@@ -440,173 +544,719 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .modal-btn.confirm {
+            background: #2196F3;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 360px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PWA Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            max-width: 90%;
+        }
+
+        .install-prompt button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <!-- Login Screen -->
-        <div id="loginScreen" class="login-screen">
-            <button class="language-toggle" onclick="toggleLanguage()">
-                <span class="lang-en">አማርኛ</span>
-                <span class="lang-am hidden">English</span>
-            </button>
-            
+        <div class="login-screen" id="loginScreen">
             <div class="login-logo">
                 <i class="fas fa-bus"></i>
-                <h1>
-                    <span class="lang-en">Ethiopia Bus Driver</span>
-                    <span class="lang-am hidden">የኢትዮጵያ አውቶብስ ሹፌር</span>
-                </h1>
-                <p>
-                    <span class="lang-en">Real-time GPS Tracking System</span>
-                    <span class="lang-am hidden">የቅጽበት GPS መከታተያ ስርዓት</span>
-                </p>
+                <h1>Driver Portal</h1>
+                <p>Ethiopia Bus System</p>
             </div>
             
-            <form class="login-form" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>
-                        <span class="lang-en">Phone Number</span>
-                        <span class="lang-am hidden">ስልክ ቁጥር</span>
-                    </label>
-                    <input type="tel" id="phoneNumber" placeholder="+251..." required pattern="\+?251[0-9]{9}">
-                </div>
+            <div class="login-form">
+                <div class="error-message" id="errorMessage"></div>
                 
-                <div class="form-group">
-                    <label>
-                        <span class="lang-en">Password</span>
-                        <span class="lang-am hidden">የይለፍ ቃል</span>
-                    </label>
-                    <input type="password" id="password" required>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <span class="lang-en">Login</span>
-                    <span class="lang-am hidden">ግባ</span>
-                </button>
-            </form>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+251 9XX XXX XXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
         </div>
 
-        <!-- Main App -->
-        <div id="mainApp" class="hidden">
+        <!-- Main Dashboard -->
+        <div class="dashboard" id="dashboard">
             <!-- Header -->
-            <div class="app-header">
-                <div class="header-content">
+            <div class="header">
+                <div class="header-top">
                     <div class="driver-info">
-                        <div class="driver-avatar" id="driverAvatar">A</div>
-                        <div class="driver-details">
-                            <h3 id="driverName">Driver Name</h3>
-                            <p id="busNumber">Bus: AA-101</p>
+                        <div class="driver-avatar" id="driverAvatar">D</div>
+                        <div>
+                            <div class="driver-name" id="driverName">Driver Name</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;" id="driverPhone">+251 9XX XXX XXX</div>
                         </div>
                     </div>
-                    <button class="logout-btn" onclick="handleLogout()">
-                        <span class="lang-en">Logout</span>
-                        <span class="lang-am hidden">ውጣ</span>
-                    </button>
+                    
+                    <div class="status-toggle">
+                        <div class="status-option active" data-status="active">Active</div>
+                        <div class="status-option" data-status="break">Break</div>
+                        <div class="status-option" data-status="offline">Offline</div>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Bus Status -->
-            <div class="bus-status-card">
+                
                 <div class="bus-info">
-                    <div>
-                        <div class="bus-number" id="busNumberMain">AA-101</div>
-                        <div class="bus-route" id="busRoute">Bole - Merkato</div>
+                    <div class="bus-detail">
+                        <div class="bus-detail-label">Bus Number</div>
+                        <div class="bus-detail-value" id="busNumber">AA-101</div>
                     </div>
-                    <div class="status-badge status-active" id="busStatus">
-                        <span class="lang-en">Active</span>
-                        <span class="lang-am hidden">ንቁ</span>
+                    <div class="bus-detail">
+                        <div class="bus-detail-label">Route</div>
+                        <div class="bus-detail-value" id="routeName">Bole - Merkato</div>
+                    </div>
+                    <div class="bus-detail">
+                        <div class="bus-detail-label">Passengers</div>
+                        <div class="bus-detail-value"><span id="currentPassengers">0</span>/<span id="busCapacity">45</span></div>
                     </div>
                 </div>
+            </div>
 
-                <!-- GPS Controls -->
-                <div class="gps-controls">
-                    <div class="gps-status">
-                        <div class="gps-indicator gps-inactive" id="gpsIndicator"></div>
-                        <span id="gpsStatusText">
-                            <span class="lang-en">GPS Inactive</span>
-                            <span class="lang-am hidden">GPS አይሰራም</span>
-                        </span>
-                    </div>
-                    <button class="gps-toggle" id="gpsToggle" onclick="toggleGPS()">
-                        <i class="fas fa-satellite-dish"></i>
-                        <span class="lang-en">Start GPS Tracking</span>
-                        <span class="lang-am hidden">GPS መከታተል ጀምር</span>
+            <!-- Map Section -->
+            <div class="map-container">
+                <div id="driverMap"></div>
+                <div class="map-controls">
+                    <button class="map-btn" id="trackingBtn" onclick="toggleTracking()">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Start Tracking</span>
+                    </button>
+                    <button class="map-btn" onclick="centerMap()">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>Center</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Statistics -->
+            <!-- Stats Grid -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <i class="fas fa-users stat-icon"></i>
-                    <div class="stat-value" id="passengerCount">0</div>
-                    <div class="stat-label">
-                        <span class="lang-en">Passengers</span>
-                        <span class="lang-am hidden">ተሳፋሪዎች</span>
+                    <div class="stat-icon blue">
+                        <i class="fas fa-route"></i>
                     </div>
+                    <div class="stat-value" id="tripCount">0</div>
+                    <div class="stat-label">Today's Trips</div>
                 </div>
+                
                 <div class="stat-card">
-                    <i class="fas fa-chair stat-icon"></i>
-                    <div class="stat-value" id="availableSeats">45</div>
-                    <div class="stat-label">
-                        <span class="lang-en">Available</span>
-                        <span class="lang-am hidden">ባዶ መቀመጫ</span>
+                    <div class="stat-icon green">
+                        <i class="fas fa-coins"></i>
                     </div>
+                    <div class="stat-value" id="todayEarnings">0 ETB</div>
+                    <div class="stat-label">Today's Earnings</div>
                 </div>
+                
                 <div class="stat-card">
-                    <i class="fas fa-tachometer-alt stat-icon"></i>
-                    <div class="stat-value" id="currentSpeed">0</div>
-                    <div class="stat-label">km/h</div>
+                    <div class="stat-icon orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="hoursWorked">0h</div>
+                    <div class="stat-label">Hours Worked</div>
                 </div>
+                
                 <div class="stat-card">
-                    <i class="fas fa-route stat-icon"></i>
-                    <div class="stat-value" id="distanceTraveled">0</div>
-                    <div class="stat-label">km</div>
+                    <div class="stat-icon purple">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value" id="rating">4.8</div>
+                    <div class="stat-label">Rating</div>
                 </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn emergency" onclick="sendEmergency()">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>Emergency</div>
+                </button>
+                
+                <button class="action-btn break" onclick="requestBreak()">
+                    <i class="fas fa-coffee"></i>
+                    <div>Break</div>
+                </button>
+                
+                <button class="action-btn fuel" onclick="requestFuel()">
+                    <i class="fas fa-gas-pump"></i>
+                    <div>Fuel</div>
+                </button>
+                
+                <button class="action-btn support" onclick="contactSupport()">
+                    <i class="fas fa-headset"></i>
+                    <div>Support</div>
+                </button>
             </div>
 
             <!-- Passenger List -->
-            <div class="passenger-section">
-                <h3 class="section-title">
-                    <i class="fas fa-list"></i>
-                    <span class="lang-en">Today's Reservations</span>
-                    <span class="lang-am hidden">የዛሬ ቦታ ማስያዣዎች</span>
-                </h3>
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Current Passengers</h3>
+                    <button class="map-btn" onclick="refreshPassengers()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </div>
+                
                 <div class="passenger-list" id="passengerList">
-                    <div class="loading">
-                        <i class="fas fa-spinner"></i>
-                        <p>Loading reservations...</p>
+                    <div class="passenger-item">
+                        <div class="passenger-info">
+                            <div class="passenger-avatar">A</div>
+                            <div class="passenger-details">
+                                <h4>Abebe Kebede</h4>
+                                <p>Boarding: Bole | Destination: Merkato</p>
+                            </div>
+                        </div>
+                        <div class="seat-number">Seat 12</div>
+                    </div>
+                    
+                    <div class="passenger-item">
+                        <div class="passenger-info">
+                            <div class="passenger-avatar">T</div>
+                            <div class="passenger-details">
+                                <h4>Tigist Haile</h4>
+                                <p>Boarding: Mexico | Destination: Merkato</p>
+                            </div>
+                        </div>
+                        <div class="seat-number">Seat 15</div>
                     </div>
                 </div>
             </div>
 
             <!-- Bottom Navigation -->
             <div class="bottom-nav">
-                <a href="#" class="nav-item active">
+                <div class="nav-item active" onclick="showPage('home')">
                     <i class="fas fa-home"></i>
-                    <span class="lang-en">Home</span>
-                    <span class="lang-am hidden">መነሻ</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-map"></i>
-                    <span class="lang-en">Route</span>
-                    <span class="lang-am hidden">መንገድ</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-bell"></i>
-                    <span class="lang-en">Alerts</span>
-                    <span class="lang-am hidden">ማስጠንቀቂያ</span>
-                </a>
-                <a href="#" class="nav-item">
+                    <span>Home</span>
+                </div>
+                <div class="nav-item" onclick="showPage('trips')">
+                    <i class="fas fa-history"></i>
+                    <span>Trips</span>
+                </div>
+                <div class="nav-item" onclick="showPage('earnings')">
+                    <i class="fas fa-wallet"></i>
+                    <span>Earnings</span>
+                </div>
+                <div class="nav-item" onclick="showPage('profile')">
                     <i class="fas fa-user"></i>
-                    <span class="lang-en">Profile</span>
-                    <span class="lang-am hidden">መገለጫ</span>
-                </a>
+                    <span>Profile</span>
+                </div>
             </div>
+        </div>
+
+        <!-- Emergency Modal -->
+        <div class="modal" id="emergencyModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>⚠️ Emergency Alert</h2>
+                    <p>This will notify the control center immediately</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn cancel" onclick="closeModal('emergencyModal')">Cancel</button>
+                    <button class="modal-btn confirm" onclick="confirmEmergency()">Send Alert</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Install Prompt -->
+        <div class="install-prompt" id="installPrompt">
+            <span>Install Driver App</span>
+            <button onclick="installPWA()">Install</button>
         </div>
     </div>
 
-    <script src="/js/driver-app.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Global variables
+        let authToken = localStorage.getItem('driverToken');
+        let currentDriver = null;
+        let driverMap = null;
+        let driverMarker = null;
+        let isTracking = false;
+        let watchId = null;
+        let ws = null;
+
+        // Check authentication
+        window.onload = function() {
+            if (authToken) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        };
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/api/auth/driver/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone.startsWith('+') ? phone : '+251' + phone.replace(/^0/, ''),
+                        password: password
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.token;
+                    localStorage.setItem('driverToken', authToken);
+                    currentDriver = data;
+                    showDashboard();
+                } else {
+                    showError('Invalid phone number or password');
+                }
+            } catch (error) {
+                showError('Connection error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            // Update driver info
+            if (currentDriver) {
+                document.getElementById('driverName').textContent = currentDriver.fullName || 'Driver';
+                document.getElementById('driverPhone').textContent = currentDriver.phoneNumber || '';
+                document.getElementById('driverAvatar').textContent = (currentDriver.fullName || 'D')[0].toUpperCase();
+                
+                if (currentDriver.busNumber) {
+                    document.getElementById('busNumber').textContent = currentDriver.busNumber;
+                }
+            }
+            
+            initializeMap();
+            connectWebSocket();
+            loadDriverData();
+        }
+
+        // Initialize map
+        function initializeMap() {
+            if (!driverMap) {
+                driverMap = L.map('driverMap').setView([9.0192, 38.7525], 13);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(driverMap);
+            }
+            
+            // Get current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        if (driverMarker) {
+                            driverMarker.setLatLng([lat, lng]);
+                        } else {
+                            driverMarker = L.marker([lat, lng], {
+                                icon: L.divIcon({
+                                    className: 'custom-div-icon',
+                                    html: '<div style="background: #2196F3; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-bus"></i></div>',
+                                    iconSize: [30, 30],
+                                    iconAnchor: [15, 15]
+                                })
+                            }).addTo(driverMap);
+                        }
+                        
+                        driverMap.setView([lat, lng], 15);
+                    },
+                    error => {
+                        console.error('Error getting location:', error);
+                    }
+                );
+            }
+        }
+
+        // Toggle GPS tracking
+        function toggleTracking() {
+            const btn = document.getElementById('trackingBtn');
+            
+            if (!isTracking) {
+                startTracking();
+                btn.classList.add('active');
+                btn.querySelector('span').textContent = 'Stop Tracking';
+            } else {
+                stopTracking();
+                btn.classList.remove('active');
+                btn.querySelector('span').textContent = 'Start Tracking';
+            }
+        }
+
+        function startTracking() {
+            if (navigator.geolocation) {
+                isTracking = true;
+                
+                watchId = navigator.geolocation.watchPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const speed = position.coords.speed || 0;
+                        
+                        // Update marker position
+                        if (driverMarker) {
+                            driverMarker.setLatLng([lat, lng]);
+                        }
+                        
+                        // Send location update to server
+                        sendLocationUpdate(lat, lng, speed);
+                    },
+                    error => {
+                        console.error('Tracking error:', error);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            }
+        }
+
+        function stopTracking() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+            }
+            isTracking = false;
+        }
+
+        async function sendLocationUpdate(lat, lng, speed) {
+            if (!authToken || !currentDriver?.busId) return;
+            
+            try {
+                await fetch('/api/buses/update-location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        busId: currentDriver.busId,
+                        latitude: lat,
+                        longitude: lng,
+                        speed: speed * 3.6 // Convert m/s to km/h
+                    })
+                });
+            } catch (error) {
+                console.error('Error sending location update:', error);
+            }
+        }
+
+        // WebSocket connection
+        function connectWebSocket() {
+            const wsUrl = `ws://${window.location.host}/ws-bus`;
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                // Subscribe to driver channel
+                if (currentDriver?.busId) {
+                    ws.send(JSON.stringify({
+                        type: 'SUBSCRIBE',
+                        busId: currentDriver.busId
+                    }));
+                }
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                handleRealtimeUpdate(data);
+            };
+            
+            ws.onclose = () => {
+                console.log('WebSocket disconnected');
+                // Reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            };
+        }
+
+        function handleRealtimeUpdate(data) {
+            if (data.type === 'PASSENGER_UPDATE') {
+                // Update passenger count
+                document.getElementById('currentPassengers').textContent = data.passengerCount;
+            } else if (data.type === 'ROUTE_CHANGE') {
+                // Update route information
+                document.getElementById('routeName').textContent = data.routeName;
+            }
+        }
+
+        // Load driver data
+        async function loadDriverData() {
+            try {
+                // Load today's stats
+                const response = await fetch('/api/driver/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('tripCount').textContent = stats.tripCount || 0;
+                    document.getElementById('todayEarnings').textContent = `${stats.earnings || 0} ETB`;
+                    document.getElementById('hoursWorked').textContent = `${stats.hoursWorked || 0}h`;
+                    document.getElementById('rating').textContent = stats.rating || '4.8';
+                }
+            } catch (error) {
+                console.error('Error loading driver data:', error);
+            }
+        }
+
+        // Status toggle
+        document.querySelectorAll('.status-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.status-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                
+                const status = this.dataset.status;
+                updateDriverStatus(status);
+            });
+        });
+
+        async function updateDriverStatus(status) {
+            try {
+                await fetch('/api/driver/status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+
+        // Quick Actions
+        function sendEmergency() {
+            document.getElementById('emergencyModal').style.display = 'flex';
+        }
+
+        function confirmEmergency() {
+            closeModal('emergencyModal');
+            // Send emergency alert to server
+            fetch('/api/driver/emergency', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+            alert('Emergency alert sent to control center!');
+        }
+
+        function requestBreak() {
+            if (confirm('Request a 15-minute break?')) {
+                updateDriverStatus('break');
+                alert('Break request sent. You have 15 minutes.');
+            }
+        }
+
+        function requestFuel() {
+            alert('Fuel request sent to dispatch.');
+        }
+
+        function contactSupport() {
+            window.location.href = 'tel:+251911000000';
+        }
+
+        function centerMap() {
+            if (driverMarker) {
+                driverMap.setView(driverMarker.getLatLng(), 15);
+            }
+        }
+
+        function refreshPassengers() {
+            loadDriverData();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showPage(page) {
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Load page content
+            console.log('Loading page:', page);
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'flex';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').style.display = 'none';
+                });
+            }
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(err => {
+                console.log('Service worker registration failed:', err);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -42,8 +42,8 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/", "/index.html", "/driver-app.html", "/passenger-app.html", 
-                           "/js/**", "/css/**", "/api/auth/**", "/ws-bus/**", "/h2-console/**").permitAll()
+                .antMatchers("/", "/index.html", "/admin-dashboard.html", "/driver-app.html", "/passenger-app.html", 
+                           "/demo-passenger.html", "/js/**", "/css/**", "/api/auth/**", "/ws-bus/**", "/h2-console/**").permitAll()
                 .antMatchers("/api/buses/**", "/api/routes/**", "/api/users/**").permitAll()
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
