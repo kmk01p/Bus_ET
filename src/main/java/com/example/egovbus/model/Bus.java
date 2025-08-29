@@ -30,6 +30,10 @@ public class Bus {
     
     private String driverPhone;  // 운전자 연락처
     
+    @OneToOne
+    @JoinColumn(name = "driver_id")
+    private User driver;  // 운전자 계정 연결
+    
     @Column(nullable = false)
     private Integer capacity;  // 버스 정원
     
