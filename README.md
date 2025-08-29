@@ -79,8 +79,14 @@ pm2 start ecosystem.config.js
 
 ### 4. Access the platforms
 - **Admin Dashboard:** http://localhost:8080/
+<img width="1920" height="1080" alt="스크린샷 2025-08-29 오후 10 50 07" src="https://github.com/user-attachments/assets/c8aadec9-e511-4145-82c0-d85bee6dc00f" />
+
 - **Passenger App:** http://localhost:8080/passenger-app.html
+<img width="1920" height="1080" alt="스크린샷 2025-08-29 오후 10 50 21" src="https://github.com/user-attachments/assets/deceddba-378a-45b0-ae59-931bbfda6d3f" />
+
 - **Driver App:** http://localhost:8080/driver-app.html
+<img width="1920" height="1080" alt="스크린샷 2025-08-29 오후 10 50 33" src="https://github.com/user-attachments/assets/e885b6ae-b1b2-46c5-934d-3b9c57d4ce3e" />
+
 
 ## 🔐 Default Credentials
 
