@@ -720,7 +720,437 @@
                 </div>
             </div>
 
-            <!-- Other pages will be added similarly -->
+            <!-- Routes Management Page -->
+            <div id="routes" class="page-content" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Route Management</h2>
+                        <button class="btn-primary" onclick="showAddRouteModal()">
+                            <i class="fas fa-plus"></i> Add New Route
+                        </button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Route ID</th>
+                                <th>Route Name</th>
+                                <th>Start Point</th>
+                                <th>End Point</th>
+                                <th>Distance</th>
+                                <th>Fare</th>
+                                <th>Active Buses</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="routesTableBody">
+                            <tr>
+                                <td>1</td>
+                                <td>Route A</td>
+                                <td>Bole</td>
+                                <td>Merkato</td>
+                                <td>15 km</td>
+                                <td>50 ETB</td>
+                                <td>5</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit">Edit</button>
+                                        <button class="btn-action btn-delete">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Route B</td>
+                                <td>Mexico</td>
+                                <td>Piassa</td>
+                                <td>8 km</td>
+                                <td>35 ETB</td>
+                                <td>3</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit">Edit</button>
+                                        <button class="btn-action btn-delete">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Passengers Management Page -->
+            <div id="passengers" class="page-content" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Passenger Management</h2>
+                        <div>
+                            <input type="text" placeholder="Search passengers..." style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-right: 10px;">
+                            <button class="btn-primary">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Registration Date</th>
+                                <th>Total Trips</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="passengersTableBody">
+                            <tr>
+                                <td>1</td>
+                                <td>Abebe Kebede</td>
+                                <td>+251912345678</td>
+                                <td>abebe@email.com</td>
+                                <td>2025-01-15</td>
+                                <td>25</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit">View</button>
+                                        <button class="btn-action btn-delete">Block</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payments Page -->
+            <div id="payments" class="page-content" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Payment Management</h2>
+                        <button class="btn-primary" onclick="exportPayments()">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                    </div>
+                    
+                    <!-- Payment Stats -->
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Today's Revenue</h3>
+                                <div class="stat-value">15,450 ETB</div>
+                                <div class="stat-change positive">+18% from yesterday</div>
+                            </div>
+                            <div class="stat-icon green">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Pending Payments</h3>
+                                <div class="stat-value">23</div>
+                                <div class="stat-change negative">5 overdue</div>
+                            </div>
+                            <div class="stat-icon orange">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Total Transactions</h3>
+                                <div class="stat-value">342</div>
+                                <div class="stat-change positive">+45 today</div>
+                            </div>
+                            <div class="stat-icon blue">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Refunds</h3>
+                                <div class="stat-value">1,200 ETB</div>
+                                <div class="stat-change">3 refunds today</div>
+                            </div>
+                            <div class="stat-icon red">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Transactions -->
+                    <h3 style="margin-bottom: 15px;">Recent Transactions</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Passenger</th>
+                                <th>Bus</th>
+                                <th>Route</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#TRX001</td>
+                                <td>2025-08-29 14:30</td>
+                                <td>Abebe Kebede</td>
+                                <td>AA-101</td>
+                                <td>Bole → Merkato</td>
+                                <td>50 ETB</td>
+                                <td>Telebirr</td>
+                                <td><span class="status-badge active">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX002</td>
+                                <td>2025-08-29 14:25</td>
+                                <td>Tigist Haile</td>
+                                <td>AA-102</td>
+                                <td>Mexico → Piassa</td>
+                                <td>35 ETB</td>
+                                <td>CBE</td>
+                                <td><span class="status-badge active">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX003</td>
+                                <td>2025-08-29 14:20</td>
+                                <td>Daniel Tekle</td>
+                                <td>AA-103</td>
+                                <td>Kazanchis → 6 Kilo</td>
+                                <td>40 ETB</td>
+                                <td>Cash</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div id="reports" class="page-content" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Reports & Analytics</h2>
+                        <div>
+                            <select style="padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; margin-right: 10px;">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                                <option>Custom Range</option>
+                            </select>
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download Report
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Report Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <div class="stat-value">458,250 ETB</div>
+                                <div class="stat-change positive">+22% growth</div>
+                            </div>
+                            <div class="stat-icon green">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Total Passengers</h3>
+                                <div class="stat-value">12,543</div>
+                                <div class="stat-change positive">+15% increase</div>
+                            </div>
+                            <div class="stat-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Average Occupancy</h3>
+                                <div class="stat-value">78%</div>
+                                <div class="stat-change positive">+5% improvement</div>
+                            </div>
+                            <div class="stat-icon orange">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Total Trips</h3>
+                                <div class="stat-value">3,421</div>
+                                <div class="stat-change positive">+120 this week</div>
+                            </div>
+                            <div class="stat-icon purple">
+                                <i class="fas fa-route"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Section -->
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px;">Revenue Trend</h3>
+                        <div style="background: #f5f5f5; padding: 40px; border-radius: 10px; text-align: center;">
+                            <i class="fas fa-chart-area" style="font-size: 3rem; color: #999;"></i>
+                            <p style="color: #666; margin-top: 10px;">Revenue chart will be displayed here</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px;">Bus Performance</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Bus Number</th>
+                                    <th>Total Trips</th>
+                                    <th>Total Passengers</th>
+                                    <th>Revenue</th>
+                                    <th>Avg Occupancy</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AA-101</td>
+                                    <td>145</td>
+                                    <td>4,523</td>
+                                    <td>45,230 ETB</td>
+                                    <td>85%</td>
+                                    <td><span class="status-badge active">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td>AA-102</td>
+                                    <td>132</td>
+                                    <td>3,892</td>
+                                    <td>38,920 ETB</td>
+                                    <td>75%</td>
+                                    <td><span class="status-badge active">Good</span></td>
+                                </tr>
+                                <tr>
+                                    <td>AA-103</td>
+                                    <td>98</td>
+                                    <td>2,156</td>
+                                    <td>21,560 ETB</td>
+                                    <td>62%</td>
+                                    <td><span class="status-badge pending">Average</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page-content" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">System Settings</h2>
+                        <button class="btn-primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                    
+                    <div style="display: grid; gap: 20px;">
+                        <!-- General Settings -->
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                            <h3 style="margin-bottom: 20px; color: #333;">General Settings</h3>
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" value="Ethiopia Bus Transport" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                            </div>
+                            <div class="form-group">
+                                <label>Default Language</label>
+                                <select style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                    <option>English</option>
+                                    <option>Amharic</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Zone</label>
+                                <select style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                                    <option>Africa/Addis_Ababa (UTC+3)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Settings -->
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                            <h3 style="margin-bottom: 20px; color: #333;">Payment Settings</h3>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Enable Telebirr
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Enable CBE Mobile Banking
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Enable Cash Payments
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Commission Rate (%)</label>
+                                <input type="number" value="5" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                            </div>
+                        </div>
+                        
+                        <!-- Notification Settings -->
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                            <h3 style="margin-bottom: 20px; color: #333;">Notification Settings</h3>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> SMS Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Push Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Admin Email</label>
+                                <input type="email" value="admin@ethiopiabus.com" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                            </div>
+                        </div>
+                        
+                        <!-- Security Settings -->
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px;">
+                            <h3 style="margin-bottom: 20px; color: #333;">Security Settings</h3>
+                            <div class="form-group">
+                                <label>Session Timeout (minutes)</label>
+                                <input type="number" value="30" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Enable Two-Factor Authentication
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" checked> Require Strong Passwords
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn-primary" style="background: #f44336;">
+                                    <i class="fas fa-key"></i> Change Admin Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1033,8 +1463,79 @@
                     loadAllBuses();
                 } else if (page === 'drivers') {
                     loadDrivers();
+                } else if (page === 'routes') {
+                    loadRoutes();
+                } else if (page === 'passengers') {
+                    loadPassengers();
+                } else if (page === 'payments') {
+                    loadPayments();
+                } else if (page === 'reports') {
+                    loadReports();
+                } else if (page === 'settings') {
+                    loadSettings();
                 }
             }
+        }
+
+        async function loadRoutes() {
+            try {
+                const response = await fetch('/api/routes', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const routes = await response.json();
+                    console.log('Routes loaded:', routes);
+                }
+            } catch (error) {
+                console.error('Error loading routes:', error);
+            }
+        }
+
+        async function loadPassengers() {
+            try {
+                const response = await fetch('/api/admin/users?role=PASSENGER', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const passengers = await response.json();
+                    console.log('Passengers loaded:', passengers);
+                }
+            } catch (error) {
+                console.error('Error loading passengers:', error);
+            }
+        }
+
+        async function loadPayments() {
+            console.log('Loading payments...');
+            // Implementation for loading payments
+        }
+
+        async function loadReports() {
+            console.log('Loading reports...');
+            // Implementation for loading reports
+        }
+
+        async function loadSettings() {
+            console.log('Loading settings...');
+            // Implementation for loading settings
+        }
+
+        function saveSettings() {
+            alert('Settings saved successfully!');
+        }
+
+        function exportPayments() {
+            alert('Exporting payment report...');
+        }
+
+        function showAddRouteModal() {
+            alert('Add route modal will open...');
         }
 
         async function loadAllBuses() {

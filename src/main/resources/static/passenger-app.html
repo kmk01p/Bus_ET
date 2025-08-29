@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             min-height: 100vh;
         }
@@ -28,49 +28,48 @@
             background: white;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 70px;
         }
 
-        /* Auth Screens */
-        .auth-screen {
-            padding: 2rem;
+        /* Hide all screens by default */
+        .screen {
+            display: none;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
         }
 
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .auth-logo i {
-            font-size: 4rem;
-            color: white;
-            margin-bottom: 1rem;
+        .screen.active {
             display: block;
         }
 
-        .auth-logo h1 {
+        /* Login Screen */
+        .login-screen {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
             color: white;
-            font-size: 1.8rem;
+        }
+
+        .login-logo i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-logo h1 {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
         }
 
-        .auth-logo p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-        }
-
-        .auth-form {
+        .login-form {
             background: white;
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .form-group {
@@ -82,38 +81,22 @@
             margin-bottom: 0.5rem;
             color: #333;
             font-weight: 500;
-            font-size: 0.95rem;
         }
 
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 0.875rem;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1rem;
-            transition: all 0.3s;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
 
-        .password-input {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #999;
-        }
-
-        .auth-btn {
+        .btn-primary {
             width: 100%;
             padding: 1rem;
             background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
@@ -123,10 +106,9 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
-        .auth-btn:active {
+        .btn-primary:active {
             transform: scale(0.98);
         }
 
@@ -138,57 +120,9 @@
         .auth-links a {
             color: #4CAF50;
             text-decoration: none;
-            font-size: 0.95rem;
-            display: inline-block;
-            margin: 0.5rem;
         }
 
-        .divider {
-            text-align: center;
-            margin: 1.5rem 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 100%;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            background: white;
-            padding: 0 1rem;
-            position: relative;
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        /* OTP Input */
-        .otp-inputs {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-
-        .otp-input {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-        }
-
-        .otp-input:focus {
-            border-color: #4CAF50;
-        }
-
-        /* Main App Header */
+        /* Main Screen Header */
         .app-header {
             background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
             color: white;
@@ -198,134 +132,168 @@
             z-index: 100;
         }
 
-        .header-content {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1rem;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .user-avatar {
             width: 35px;
             height: 35px;
+            border-radius: 50%;
             background: white;
             color: #4CAF50;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
         }
 
-        /* Search Section */
-        .search-section {
-            padding: 1rem;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .notification-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
         }
 
-        .route-search {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .search-input {
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff5722;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
-            padding: 0.75rem;
-            background: #f5f5f5;
-            border-radius: 10px;
-            gap: 0.75rem;
+            justify-content: center;
+            font-size: 0.7rem;
         }
 
-        .search-input i {
+        /* Search Section */
+        .search-section {
+            background: white;
+            margin: -20px 1rem 1rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .search-input-group input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .search-input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
             color: #4CAF50;
         }
 
-        .search-input input {
-            flex: 1;
+        .swap-btn {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #4CAF50;
+            color: white;
             border: none;
-            background: none;
-            outline: none;
-            font-size: 0.95rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
         }
 
         .search-btn {
+            width: 100%;
             padding: 0.875rem;
             background: #4CAF50;
             color: white;
             border: none;
             border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
 
-        /* Quick Actions */
-        .quick-actions {
+        /* Quick Links */
+        .quick-links {
             padding: 1rem;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
         }
 
-        .action-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 15px;
+        .quick-link {
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
-        .action-card:active {
-            transform: scale(0.95);
-        }
-
-        .action-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+        .quick-link-icon {
+            width: 60px;
+            height: 60px;
+            background: #f0f0f0;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 0.5rem;
-        }
-
-        .action-icon i {
-            color: white;
             font-size: 1.5rem;
         }
 
-        .action-label {
+        .quick-link-icon.green {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .quick-link-icon.blue {
+            background: #e3f2fd;
+            color: #2196F3;
+        }
+
+        .quick-link-icon.orange {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .quick-link-icon.purple {
+            background: #f3e5f5;
+            color: #9c27b0;
+        }
+
+        .quick-link span {
             font-size: 0.85rem;
             color: #666;
         }
 
-        /* Map Container */
-        .map-section {
-            height: 300px;
-            position: relative;
-        }
-
-        #passengerMap {
-            height: 100%;
-            width: 100%;
-        }
-
-        /* Bus List */
-        .nearby-buses {
+        /* Active Buses Section */
+        .section {
             padding: 1rem;
         }
 
@@ -337,162 +305,214 @@
         }
 
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #333;
         }
 
+        .see-all {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Bus Card */
         .bus-card {
             background: white;
             border-radius: 15px;
             padding: 1rem;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .bus-card:active {
-            transform: scale(0.98);
         }
 
         .bus-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
 
-        .bus-number-badge {
-            background: #4CAF50;
-            color: white;
+        .bus-number {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bus-status {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 600;
-            font-size: 0.9rem;
         }
 
-        .bus-eta {
+        .bus-status.active {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .bus-status.arriving {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
             color: #666;
-            font-size: 0.9rem;
         }
 
-        .bus-route-info {
-            color: #333;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
+        .route-info i {
+            margin-right: 0.5rem;
+            color: #4CAF50;
         }
 
         .bus-details {
             display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: #666;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f0f0f0;
         }
 
         .bus-detail {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
+            text-align: center;
         }
 
-        .book-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            margin-top: 0.75rem;
-            cursor: pointer;
-        }
-
-        /* Booking Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            animation: fadeIn 0.3s;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-title {
-            font-size: 1.2rem;
+        .bus-detail-value {
             font-weight: 600;
             color: #333;
+            margin-bottom: 0.25rem;
         }
 
-        .modal-close {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: none;
-            background: #f5f5f5;
-            cursor: pointer;
+        .bus-detail-label {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Map View */
+        #map {
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Booking Screen */
+        .booking-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 1rem;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .booking-title {
+            flex: 1;
+        }
+
+        .booking-title h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-title p {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
 
         /* Seat Selection */
-        .seat-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
+        .seat-map {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .seat-map-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .seat-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
-            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .legend-seat {
+            width: 25px;
+            height: 25px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .legend-seat.available {
+            background: white;
+        }
+
+        .legend-seat.selected {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .legend-seat.booked {
+            background: #f44336;
+            border-color: #f44336;
+        }
+
+        .bus-layout {
+            max-width: 300px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 15px;
+        }
+
+        .seat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .seat-row.aisle {
+            grid-template-columns: repeat(2, 1fr) 2fr repeat(2, 1fr);
         }
 
         .seat {
+            width: 100%;
             aspect-ratio: 1;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #ddd;
             border-radius: 8px;
+            background: white;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.8rem;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .seat.available {
-            background: white;
-            color: #666;
-        }
-
-        .seat.available:hover {
-            border-color: #4CAF50;
-            background: #e8f5e9;
+        .seat.aisle-space {
+            border: none;
+            background: transparent;
+            cursor: default;
         }
 
         .seat.selected {
@@ -501,10 +521,68 @@
             border-color: #4CAF50;
         }
 
-        .seat.occupied {
-            background: #f5f5f5;
-            color: #999;
+        .seat.booked {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
             cursor: not-allowed;
+        }
+
+        /* Payment Section */
+        .payment-summary {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .payment-row.total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .payment-methods {
+            margin-top: 1.5rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+
+        .payment-method.selected {
+            border-color: #4CAF50;
+            background: #f1f8f4;
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 1rem;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-method-desc {
+            font-size: 0.85rem;
+            color: #666;
         }
 
         /* Bottom Navigation */
@@ -514,73 +592,131 @@
             left: 0;
             right: 0;
             background: white;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             padding: 0.5rem 0;
             max-width: 480px;
             margin: 0 auto;
-            z-index: 100;
         }
 
         .nav-item {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
             padding: 0.5rem;
-            color: #999;
-            text-decoration: none;
-            transition: color 0.3s;
+            cursor: pointer;
         }
 
-        .nav-item.active {
+        .nav-item.active i,
+        .nav-item.active span {
             color: #4CAF50;
         }
 
         .nav-item i {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            color: #999;
+            display: block;
             margin-bottom: 0.25rem;
         }
 
         .nav-item span {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            color: #999;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        /* Booking Confirmation */
+        .confirm-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        /* My Bookings */
+        .booking-item {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Utilities */
-        .hidden {
-            display: none !important;
+        .booking-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
+        .booking-status.confirmed {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .booking-status.pending {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .booking-info {
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-info strong {
+            color: #333;
+            margin-right: 0.5rem;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .booking-action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid #4CAF50;
+            background: white;
+            color: #4CAF50;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .booking-action-btn.cancel {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        /* Loading */
         .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
         }
 
-        .loading i {
-            font-size: 2rem;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
@@ -589,320 +725,774 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error-text {
-            color: #f44336;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
+        /* Error Message */
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
         }
 
-        .success-text {
-            color: #4CAF50;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #f44336;
-            color: white;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
+        /* Success Message */
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
         <!-- Login Screen -->
-        <div id="loginScreen" class="auth-screen">
-            <div class="auth-logo">
-                <i class="fas fa-bus"></i>
-                <h1>Ethiopia Bus</h1>
-                <p>Your Journey, Our Priority</p>
-            </div>
-            
-            <form class="auth-form" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="loginPhone" placeholder="+251..." required 
-                           pattern="\+?251[0-9]{9}">
+        <div id="loginScreen" class="screen active">
+            <div class="login-screen">
+                <div class="login-logo">
+                    <i class="fas fa-bus"></i>
+                    <h1>Ethiopia Bus</h1>
+                    <p>የኢትዮጵያ አውቶብስ</p>
                 </div>
                 
-                <div class="form-group">
-                    <label>Password</label>
-                    <div class="password-input">
-                        <input type="password" id="loginPassword" required>
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword')"></i>
+                <div class="login-form">
+                    <div class="error-message" id="loginError"></div>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="loginPhone" placeholder="+251 9XX XXX XXX" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Login</button>
+                    </form>
+                    
+                    <div class="auth-links">
+                        <a href="#" onclick="showScreen('signupScreen')">Create Account</a> | 
+                        <a href="#" onclick="showScreen('forgotScreen')">Forgot Password?</a>
                     </div>
                 </div>
-                
-                <button type="submit" class="auth-btn">Login</button>
-                
-                <div class="auth-links">
-                    <a href="#" onclick="showScreen('forgotScreen')">Forgot Password?</a>
-                    <br>
-                    <a href="#" onclick="showScreen('signupScreen')">Create New Account</a>
-                </div>
-            </form>
+            </div>
         </div>
 
         <!-- Signup Screen -->
-        <div id="signupScreen" class="auth-screen hidden">
-            <div class="auth-logo">
-                <i class="fas fa-user-plus"></i>
-                <h1>Create Account</h1>
-                <p>Join Ethiopia Bus Today</p>
-            </div>
-            
-            <form class="auth-form" onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="signupName" required>
+        <div id="signupScreen" class="screen">
+            <div class="login-screen">
+                <div class="login-logo">
+                    <i class="fas fa-user-plus"></i>
+                    <h1>Create Account</h1>
+                    <p>Join Ethiopia Bus</p>
                 </div>
                 
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="signupPhone" placeholder="+251..." required 
-                           pattern="\+?251[0-9]{9}">
-                </div>
-                
-                <div class="form-group">
-                    <label>Email (Optional)</label>
-                    <input type="email" id="signupEmail">
-                </div>
-                
-                <div class="form-group">
-                    <label>Password *</label>
-                    <div class="password-input">
-                        <input type="password" id="signupPassword" required minlength="8">
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('signupPassword')"></i>
+                <div class="login-form">
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="signupName" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="signupPhone" placeholder="+251 9XX XXX XXX" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signupPassword" placeholder="Create password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Sign Up</button>
+                    </form>
+                    
+                    <div class="auth-links">
+                        <a href="#" onclick="showScreen('loginScreen')">Already have account? Login</a>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label>Confirm Password *</label>
-                    <div class="password-input">
-                        <input type="password" id="signupConfirmPassword" required minlength="8">
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('signupConfirmPassword')"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Preferred Language</label>
-                    <select id="signupLanguage">
-                        <option value="am">አማርኛ (Amharic)</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="auth-btn">Create Account</button>
-                
-                <div class="auth-links">
-                    <a href="#" onclick="showScreen('loginScreen')">Already have an account? Login</a>
-                </div>
-            </form>
-        </div>
-
-        <!-- OTP Verification Screen -->
-        <div id="otpScreen" class="auth-screen hidden">
-            <div class="auth-logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1>Verify Phone</h1>
-                <p>Enter the code sent to your phone</p>
             </div>
-            
-            <form class="auth-form" onsubmit="handleOTPVerification(event)">
-                <p style="text-align: center; color: #666; margin-bottom: 1rem;">
-                    We sent a 6-digit code to <strong id="otpPhone"></strong>
-                </p>
-                
-                <div class="otp-inputs">
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
-                </div>
-                
-                <button type="submit" class="auth-btn">Verify</button>
-                
-                <div class="auth-links">
-                    <a href="#" onclick="resendOTP()">Resend Code</a>
-                    <br>
-                    <a href="#" onclick="showScreen('loginScreen')">Back to Login</a>
-                </div>
-            </form>
         </div>
 
-        <!-- Forgot Password Screen -->
-        <div id="forgotScreen" class="auth-screen hidden">
-            <div class="auth-logo">
-                <i class="fas fa-key"></i>
-                <h1>Reset Password</h1>
-                <p>We'll send you a reset code</p>
-            </div>
-            
-            <form class="auth-form" onsubmit="handleForgotPassword(event)">
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="forgotPhone" placeholder="+251..." required 
-                           pattern="\+?251[0-9]{9}">
-                </div>
-                
-                <button type="submit" class="auth-btn">Send Reset Code</button>
-                
-                <div class="auth-links">
-                    <a href="#" onclick="showScreen('loginScreen')">Back to Login</a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Main App -->
-        <div id="mainApp" class="hidden">
+        <!-- Main Home Screen -->
+        <div id="homeScreen" class="screen">
             <!-- Header -->
             <div class="app-header">
-                <div class="header-content">
+                <div class="header-top">
                     <div class="user-info">
                         <div class="user-avatar" id="userAvatar">U</div>
                         <div>
-                            <div style="font-size: 0.9rem; font-weight: 600;" id="userName">User</div>
-                            <div style="font-size: 0.75rem; opacity: 0.9;" id="userPhone">+251...</div>
+                            <div style="font-weight: 600;" id="userName">User</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9;">Good morning!</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 1rem;">
-                        <div style="position: relative;">
-                            <i class="fas fa-bell" style="font-size: 1.25rem; cursor: pointer;"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                        <i class="fas fa-cog" style="font-size: 1.25rem; cursor: pointer;" onclick="showSettings()"></i>
-                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
                 </div>
             </div>
 
             <!-- Search Section -->
             <div class="search-section">
-                <div class="route-search">
-                    <div class="search-input">
+                <div style="position: relative;">
+                    <div class="search-input-group">
                         <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" placeholder="From" id="searchFrom">
+                        <input type="text" id="fromLocation" placeholder="From where?" value="Bole">
                     </div>
-                    <div class="search-input">
-                        <i class="fas fa-location-arrow"></i>
-                        <input type="text" placeholder="To" id="searchTo">
-                    </div>
-                    <button class="search-btn" onclick="searchRoutes()">
-                        <i class="fas fa-search"></i>
-                        Search Buses
+                    
+                    <button class="swap-btn">
+                        <i class="fas fa-exchange-alt"></i>
                     </button>
+                    
+                    <div class="search-input-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="toLocation" placeholder="To where?" value="Merkato">
+                    </div>
                 </div>
+                
+                <button class="search-btn" onclick="searchBuses()">
+                    <i class="fas fa-search"></i> Search Buses
+                </button>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="action-card" onclick="showNearbyBuses()">
-                    <div class="action-icon">
-                        <i class="fas fa-map-marked-alt"></i>
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <div class="quick-link" onclick="showNearbyBuses()">
+                    <div class="quick-link-icon green">
+                        <i class="fas fa-location-arrow"></i>
                     </div>
-                    <div class="action-label">Nearby</div>
+                    <span>Nearby</span>
                 </div>
-                <div class="action-card" onclick="showMyTickets()">
-                    <div class="action-icon">
+                
+                <div class="quick-link" onclick="showBookings()">
+                    <div class="quick-link-icon blue">
                         <i class="fas fa-ticket-alt"></i>
                     </div>
-                    <div class="action-label">My Tickets</div>
+                    <span>My Tickets</span>
                 </div>
-                <div class="action-card" onclick="showSchedule()">
-                    <div class="action-icon">
-                        <i class="fas fa-calendar-alt"></i>
+                
+                <div class="quick-link" onclick="showRoutes()">
+                    <div class="quick-link-icon orange">
+                        <i class="fas fa-route"></i>
                     </div>
-                    <div class="action-label">Schedule</div>
+                    <span>Routes</span>
                 </div>
-                <div class="action-card" onclick="trackBus()">
-                    <div class="action-icon">
-                        <i class="fas fa-location-dot"></i>
+                
+                <div class="quick-link" onclick="showSchedule()">
+                    <div class="quick-link-icon purple">
+                        <i class="fas fa-clock"></i>
                     </div>
-                    <div class="action-label">Track Bus</div>
-                </div>
-                <div class="action-card" onclick="showPayments()">
-                    <div class="action-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="action-label">Payments</div>
-                </div>
-                <div class="action-card" onclick="showHelp()">
-                    <div class="action-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="action-label">Help</div>
+                    <span>Schedule</span>
                 </div>
             </div>
 
-            <!-- Map -->
-            <div class="map-section">
-                <div id="passengerMap"></div>
-            </div>
-
-            <!-- Nearby Buses -->
-            <div class="nearby-buses">
+            <!-- Map View -->
+            <div class="section">
                 <div class="section-header">
-                    <h3 class="section-title">Nearby Buses</h3>
-                    <a href="#" style="color: #4CAF50; text-decoration: none; font-size: 0.9rem;">View All</a>
+                    <h3 class="section-title">Live Bus Tracking</h3>
+                    <a href="#" class="see-all">Full Map</a>
                 </div>
-                <div id="busList">
-                    <div class="loading">
-                        <i class="fas fa-spinner"></i>
-                        <p>Loading buses...</p>
+                <div id="map"></div>
+            </div>
+
+            <!-- Active Buses -->
+            <div class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Buses Near You</h3>
+                    <a href="#" class="see-all">See All</a>
+                </div>
+                
+                <div id="activeBusesList">
+                    <!-- Bus Card 1 -->
+                    <div class="bus-card" onclick="showBusDetails('AA-101')">
+                        <div class="bus-card-header">
+                            <span class="bus-number">Bus AA-101</span>
+                            <span class="bus-status arriving">Arriving in 5 min</span>
+                        </div>
+                        
+                        <div class="route-info">
+                            <i class="fas fa-route"></i>
+                            <span>Bole → Merkato</span>
+                        </div>
+                        
+                        <div class="bus-details">
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">15/45</div>
+                                <div class="bus-detail-label">Seats</div>
+                            </div>
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">50 ETB</div>
+                                <div class="bus-detail-label">Fare</div>
+                            </div>
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">2.5 km</div>
+                                <div class="bus-detail-label">Distance</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bus Card 2 -->
+                    <div class="bus-card" onclick="showBusDetails('AA-102')">
+                        <div class="bus-card-header">
+                            <span class="bus-number">Bus AA-102</span>
+                            <span class="bus-status active">On Route</span>
+                        </div>
+                        
+                        <div class="route-info">
+                            <i class="fas fa-route"></i>
+                            <span>Mexico → Piassa</span>
+                        </div>
+                        
+                        <div class="bus-details">
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">28/45</div>
+                                <div class="bus-detail-label">Seats</div>
+                            </div>
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">35 ETB</div>
+                                <div class="bus-detail-label">Fare</div>
+                            </div>
+                            <div class="bus-detail">
+                                <div class="bus-detail-value">4.1 km</div>
+                                <div class="bus-detail-label">Distance</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Bottom Navigation -->
             <div class="bottom-nav">
-                <a href="#" class="nav-item active" onclick="showHome()">
+                <div class="nav-item active" onclick="showHomeTab()">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showSearch()">
-                    <i class="fas fa-search"></i>
-                    <span>Search</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showTickets()">
+                </div>
+                <div class="nav-item" onclick="showBookingsTab()">
                     <i class="fas fa-ticket-alt"></i>
-                    <span>Tickets</span>
-                </a>
-                <a href="#" class="nav-item" onclick="showProfile()">
+                    <span>Bookings</span>
+                </div>
+                <div class="nav-item" onclick="showMapTab()">
+                    <i class="fas fa-map"></i>
+                    <span>Map</span>
+                </div>
+                <div class="nav-item" onclick="showProfileTab()">
                     <i class="fas fa-user"></i>
                     <span>Profile</span>
-                </a>
+                </div>
             </div>
         </div>
 
-        <!-- Booking Modal -->
-        <div id="bookingModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Book Your Seat</h3>
-                    <button class="modal-close" onclick="closeModal('bookingModal')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div id="bookingDetails">
-                    <!-- Booking details will be inserted here -->
+        <!-- Booking Screen -->
+        <div id="bookingScreen" class="screen">
+            <div class="booking-header">
+                <button class="back-btn" onclick="showScreen('homeScreen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="booking-title">
+                    <h2>Select Seats</h2>
+                    <p id="bookingRoute">Bole → Merkato</p>
                 </div>
             </div>
+
+            <div class="seat-map">
+                <div class="seat-map-header">
+                    <h3 id="bookingBusNumber">Bus AA-101</h3>
+                    <p>Select your preferred seats</p>
+                </div>
+
+                <div class="seat-legend">
+                    <div class="legend-item">
+                        <div class="legend-seat available"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-seat selected"></div>
+                        <span>Selected</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-seat booked"></div>
+                        <span>Booked</span>
+                    </div>
+                </div>
+
+                <div class="bus-layout">
+                    <!-- Front -->
+                    <div style="text-align: center; margin-bottom: 1rem; color: #666;">
+                        <i class="fas fa-steering-wheel"></i> Driver
+                    </div>
+
+                    <!-- Seats Grid -->
+                    <div id="seatGrid">
+                        <!-- Row 1 -->
+                        <div class="seat-row aisle">
+                            <div class="seat" data-seat="1">1</div>
+                            <div class="seat" data-seat="2">2</div>
+                            <div class="seat aisle-space"></div>
+                            <div class="seat booked" data-seat="3">3</div>
+                            <div class="seat" data-seat="4">4</div>
+                        </div>
+                        <!-- More rows will be generated -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-summary">
+                <h3>Booking Summary</h3>
+                <div class="payment-row">
+                    <span>Selected Seats:</span>
+                    <span id="selectedSeats">None</span>
+                </div>
+                <div class="payment-row">
+                    <span>Price per Seat:</span>
+                    <span>50 ETB</span>
+                </div>
+                <div class="payment-row total">
+                    <span>Total Amount:</span>
+                    <span id="totalAmount">0 ETB</span>
+                </div>
+
+                <div class="payment-methods">
+                    <h4>Payment Method</h4>
+                    <div class="payment-method selected">
+                        <input type="radio" name="payment" checked>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Telebirr</div>
+                            <div class="payment-method-desc">Pay with Telebirr mobile money</div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="payment">
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">CBE Mobile Banking</div>
+                            <div class="payment-method-desc">Pay with CBE mobile banking</div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" name="payment">
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">Cash</div>
+                            <div class="payment-method-desc">Pay to driver when boarding</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="confirm-btn" onclick="confirmBooking()">
+                    Confirm Booking
+                </button>
+            </div>
+        </div>
+
+        <!-- My Bookings Screen -->
+        <div id="bookingsScreen" class="screen">
+            <div class="app-header">
+                <div class="header-top">
+                    <button class="back-btn" onclick="showScreen('homeScreen')" style="background: rgba(255,255,255,0.2);">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 style="flex: 1; text-align: center;">My Bookings</h2>
+                    <div style="width: 35px;"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="booking-item">
+                    <span class="booking-status confirmed">Confirmed</span>
+                    <div class="booking-info">
+                        <strong>Bus:</strong> AA-101
+                    </div>
+                    <div class="booking-info">
+                        <strong>Route:</strong> Bole → Merkato
+                    </div>
+                    <div class="booking-info">
+                        <strong>Date:</strong> Today, 3:30 PM
+                    </div>
+                    <div class="booking-info">
+                        <strong>Seats:</strong> 12, 13
+                    </div>
+                    <div class="booking-info">
+                        <strong>Total:</strong> 100 ETB
+                    </div>
+                    <div class="booking-actions">
+                        <button class="booking-action-btn">Show QR Code</button>
+                        <button class="booking-action-btn cancel">Cancel Booking</button>
+                    </div>
+                </div>
+
+                <div class="booking-item">
+                    <span class="booking-status pending">Pending Payment</span>
+                    <div class="booking-info">
+                        <strong>Bus:</strong> AA-105
+                    </div>
+                    <div class="booking-info">
+                        <strong>Route:</strong> Mexico → Piassa
+                    </div>
+                    <div class="booking-info">
+                        <strong>Date:</strong> Tomorrow, 8:00 AM
+                    </div>
+                    <div class="booking-info">
+                        <strong>Seats:</strong> 5
+                    </div>
+                    <div class="booking-info">
+                        <strong>Total:</strong> 35 ETB
+                    </div>
+                    <div class="booking-actions">
+                        <button class="booking-action-btn" style="background: #4CAF50; color: white;">Pay Now</button>
+                        <button class="booking-action-btn cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
         </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="/js/passenger-app.js"></script>
+    <script>
+        // Global variables
+        let currentUser = null;
+        let authToken = localStorage.getItem('passengerToken');
+        let map = null;
+        let selectedSeats = [];
+        let currentBus = null;
+
+        // Initialize
+        window.onload = function() {
+            if (authToken) {
+                // Auto-login if token exists
+                showScreen('homeScreen');
+                initializeMap();
+            } else {
+                showScreen('loginScreen');
+            }
+        };
+
+        // Screen Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            
+            if (screenId === 'homeScreen' && !map) {
+                setTimeout(initializeMap, 100);
+            }
+        }
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/api/auth/passenger/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: phone.startsWith('+') ? phone : '+251' + phone.replace(/^0/, ''),
+                        password: password
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.token;
+                    localStorage.setItem('passengerToken', authToken);
+                    currentUser = data;
+                    
+                    // Update user info
+                    document.getElementById('userName').textContent = data.fullName || 'Passenger';
+                    document.getElementById('userAvatar').textContent = (data.fullName || 'P')[0].toUpperCase();
+                    
+                    showScreen('homeScreen');
+                    initializeMap();
+                } else {
+                    showError('Invalid phone number or password');
+                }
+            } catch (error) {
+                showError('Connection error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // Signup Form
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const phone = document.getElementById('signupPhone').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: name,
+                        phoneNumber: phone.startsWith('+') ? phone : '+251' + phone.replace(/^0/, ''),
+                        password: password,
+                        confirmPassword: confirmPassword,
+                        acceptTerms: true
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Account created successfully! Please login.');
+                    showScreen('loginScreen');
+                } else {
+                    alert('Signup failed. Please try again.');
+                }
+            } catch (error) {
+                alert('Connection error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // Initialize Map
+        function initializeMap() {
+            if (!map) {
+                map = L.map('map').setView([9.0192, 38.7525], 13);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                
+                // Add sample bus markers
+                addBusMarker(9.0192, 38.7525, 'AA-101', 'Bole → Merkato');
+                addBusMarker(9.0292, 38.7425, 'AA-102', 'Mexico → Piassa');
+                addBusMarker(9.0092, 38.7625, 'AA-103', 'Kazanchis → 6 Kilo');
+            }
+        }
+
+        function addBusMarker(lat, lng, busNumber, route) {
+            const marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background: #4CAF50; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-bus"></i></div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                })
+            }).addTo(map);
+            
+            marker.bindPopup(`<b>${busNumber}</b><br>${route}`);
+        }
+
+        // Search Buses
+        function searchBuses() {
+            const from = document.getElementById('fromLocation').value;
+            const to = document.getElementById('toLocation').value;
+            
+            if (!from || !to) {
+                alert('Please enter both locations');
+                return;
+            }
+            
+            // Simulate search
+            showLoading(true);
+            setTimeout(() => {
+                showLoading(false);
+                alert(`Searching buses from ${from} to ${to}...`);
+                // Update bus list with search results
+            }, 1000);
+        }
+
+        // Show Bus Details
+        function showBusDetails(busNumber) {
+            currentBus = busNumber;
+            document.getElementById('bookingBusNumber').textContent = `Bus ${busNumber}`;
+            showScreen('bookingScreen');
+            initializeSeatMap();
+        }
+
+        // Initialize Seat Map
+        function initializeSeatMap() {
+            const seatGrid = document.getElementById('seatGrid');
+            seatGrid.innerHTML = '';
+            
+            // Generate 11 rows of seats (44 seats total)
+            for (let row = 1; row <= 11; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'seat-row aisle';
+                
+                for (let col = 1; col <= 5; col++) {
+                    if (col === 3) {
+                        // Aisle space
+                        const aisle = document.createElement('div');
+                        aisle.className = 'seat aisle-space';
+                        rowDiv.appendChild(aisle);
+                    } else {
+                        const seatNum = (row - 1) * 4 + (col > 3 ? col - 1 : col);
+                        const seat = document.createElement('div');
+                        seat.className = 'seat';
+                        seat.dataset.seat = seatNum;
+                        seat.textContent = seatNum;
+                        
+                        // Randomly mark some seats as booked
+                        if (Math.random() < 0.3) {
+                            seat.classList.add('booked');
+                        } else {
+                            seat.onclick = () => toggleSeat(seatNum);
+                        }
+                        
+                        rowDiv.appendChild(seat);
+                    }
+                }
+                
+                seatGrid.appendChild(rowDiv);
+            }
+        }
+
+        // Toggle Seat Selection
+        function toggleSeat(seatNum) {
+            const seatElement = document.querySelector(`[data-seat="${seatNum}"]`);
+            
+            if (seatElement.classList.contains('booked')) return;
+            
+            if (seatElement.classList.contains('selected')) {
+                seatElement.classList.remove('selected');
+                selectedSeats = selectedSeats.filter(s => s !== seatNum);
+            } else {
+                if (selectedSeats.length >= 5) {
+                    alert('You can select maximum 5 seats');
+                    return;
+                }
+                seatElement.classList.add('selected');
+                selectedSeats.push(seatNum);
+            }
+            
+            updateBookingSummary();
+        }
+
+        // Update Booking Summary
+        function updateBookingSummary() {
+            document.getElementById('selectedSeats').textContent = 
+                selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None';
+            document.getElementById('totalAmount').textContent = 
+                `${selectedSeats.length * 50} ETB`;
+        }
+
+        // Confirm Booking
+        function confirmBooking() {
+            if (selectedSeats.length === 0) {
+                alert('Please select at least one seat');
+                return;
+            }
+            
+            showLoading(true);
+            
+            // Simulate booking
+            setTimeout(() => {
+                showLoading(false);
+                alert(`Booking confirmed!\nBus: ${currentBus}\nSeats: ${selectedSeats.join(', ')}\nTotal: ${selectedSeats.length * 50} ETB`);
+                selectedSeats = [];
+                showScreen('bookingsScreen');
+            }, 1500);
+        }
+
+        // Quick Actions
+        function showNearbyBuses() {
+            alert('Showing nearby buses...');
+        }
+
+        function showBookings() {
+            showScreen('bookingsScreen');
+        }
+
+        function showRoutes() {
+            alert('Showing all routes...');
+        }
+
+        function showSchedule() {
+            alert('Showing bus schedule...');
+        }
+
+        // Bottom Navigation
+        function showHomeTab() {
+            showScreen('homeScreen');
+            updateNavigation('home');
+        }
+
+        function showBookingsTab() {
+            showScreen('bookingsScreen');
+            updateNavigation('bookings');
+        }
+
+        function showMapTab() {
+            alert('Full map view coming soon...');
+            updateNavigation('map');
+        }
+
+        function showProfileTab() {
+            alert('Profile screen coming soon...');
+            updateNavigation('profile');
+        }
+
+        function updateNavigation(active) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Update active state based on tab
+        }
+
+        // Utility Functions
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // WebSocket Connection
+        function connectWebSocket() {
+            const ws = new WebSocket(`ws://${window.location.host}/ws-bus`);
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                // Update bus positions on map
+                console.log('Bus update:', data);
+            };
+        }
+
+        // Initialize WebSocket if logged in
+        if (authToken) {
+            connectWebSocket();
+        }
+    </script>
 </body>
 </html>
