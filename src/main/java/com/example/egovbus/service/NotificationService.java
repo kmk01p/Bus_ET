@@ -120,7 +120,7 @@ public class NotificationService {
     /**
      * Send SMS via Ethiopian telecom
      */
-    private void sendSMS(String phoneNumber, String message) {
+    public void sendSMS(String phoneNumber, String message) {
         try {
             // Format phone number for Ethiopian format
             String formattedPhone = formatEthiopianPhone(phoneNumber);

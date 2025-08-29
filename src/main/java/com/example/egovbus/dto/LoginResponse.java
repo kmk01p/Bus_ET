@@ -9,6 +9,7 @@ public class LoginResponse {
     private String fullName;
     private String role;
     private String phoneNumber;
+    private String username;
     private Long busId;
     private String busNumber;
 }

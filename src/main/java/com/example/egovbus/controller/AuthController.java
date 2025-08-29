@@ -21,6 +21,32 @@ public class AuthController {
     private final AuthService authService;
     
     /**
+     * Generic login endpoint (for admin and all users)
+     */
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        try {
+            LoginResponse response = authService.authenticate(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    
+    /**
+     * Admin login endpoint
+     */
+    @PostMapping("/admin/login")
+    public ResponseEntity<LoginResponse> adminLogin(@RequestBody LoginRequest request) {
+        try {
+            LoginResponse response = authService.adminLogin(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    
+    /**
      * Driver login endpoint
      */
     @PostMapping("/driver/login")

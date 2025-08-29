@@ -27,6 +27,99 @@ public class AuthService {
     private final JwtTokenProvider tokenProvider;
     
     /**
+     * Generic authentication for all users
+     */
+    public LoginResponse authenticate(LoginRequest request) {
+        User user = null;
+        
+        // Try to find by username first (for admin), then by phone number
+        if (request.getUsername() != null) {
+            user = userRepository.findByUsername(request.getUsername())
+                .orElse(null);
+        }
+        
+        if (user == null && request.getPhoneNumber() != null) {
+            user = userRepository.findByPhoneNumber(request.getPhoneNumber())
+                .orElse(null);
+        }
+        
+        if (user == null) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        
+        if (!user.getIsActive()) {
+            throw new RuntimeException("Account is deactivated");
+        }
+        
+        // Update last login
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+        
+        // Generate JWT token
+        String token = tokenProvider.generateToken(user);
+        
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        response.setUserId(user.getId());
+        response.setFullName(user.getFullName());
+        response.setRole(user.getRole().name());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setUsername(user.getUsername());
+        
+        if (user.getAssignedBus() != null) {
+            response.setBusId(user.getAssignedBus().getId());
+            response.setBusNumber(user.getAssignedBus().getBusNumber());
+        }
+        
+        log.info("User login successful: {} ({})", 
+            user.getUsername() != null ? user.getUsername() : user.getPhoneNumber(), 
+            user.getRole());
+        return response;
+    }
+    
+    /**
+     * Admin login
+     */
+    public LoginResponse adminLogin(LoginRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+            .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        
+        if (user.getRole() != UserRole.ADMIN) {
+            throw new RuntimeException("Access denied. Admin account required.");
+        }
+        
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        
+        if (!user.getIsActive()) {
+            throw new RuntimeException("Account is deactivated");
+        }
+        
+        // Update last login
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+        
+        // Generate JWT token
+        String token = tokenProvider.generateToken(user);
+        
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        response.setUserId(user.getId());
+        response.setFullName(user.getFullName());
+        response.setRole(user.getRole().name());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setUsername(user.getUsername());
+        
+        log.info("Admin login successful: {}", user.getUsername());
+        return response;
+    }
+    
+    /**
      * Driver login
      */
     public LoginResponse driverLogin(LoginRequest request) {
